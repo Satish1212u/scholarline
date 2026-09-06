@@ -212,7 +212,7 @@ export default function Contact() {
             </div>
             <div>
               <h4 className="text-white font-semibold text-lg mb-1">Visit Us</h4>
-              <p className="text-slate-400">252/24, Block-Rz, West Sagarpur, New Delhi 110046</p>
+              <p className="text-slate-400">Mutaina, Tehsil Gunnour, Sambhal, UP – 202527</p>
             </div>
           </div>
         </motion.div>

@@ -94,7 +94,7 @@ export default function Footer() {
               </div>
               <div className="flex items-start gap-4 text-slate-400 text-sm hover:text-amber-500 transition-colors cursor-pointer">
                 <MapPin size={18} className="mt-0.5 flex-shrink-0" />
-                <span>252/24, Block-Rz, West Sagarpur, New Delhi 110046</span>
+                <span>Mutaina, Tehsil Gunnour, Sambhal, UP – 202527</span>
               </div>
             </div>
           </div>
