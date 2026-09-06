@@ -7,7 +7,13 @@ import Button from '../components/ui/Button';
 
 export default function Contact() {
 
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: ''
+  });
   const [formErrors, setFormErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,20 +33,30 @@ export default function Contact() {
     let isValid = true;
 
     if (!formData.name.trim()) {
-      errors.name = 'Name is required';
+      errors.name = 'Full name is required';
       isValid = false;
     }
 
     if (!formData.email.trim()) {
-      errors.email = 'Email is required';
+      errors.email = 'Email address is required';
       isValid = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       errors.email = 'Please enter a valid email address';
       isValid = false;
     }
 
+    if (formData.phone.trim() && !/^[+]?[\d\s\-()]{7,20}$/.test(formData.phone.trim())) {
+      errors.phone = 'Please enter a valid phone number';
+      isValid = false;
+    }
+
+    if (!formData.service || !formData.service.trim()) {
+      errors.service = 'Please select a service';
+      isValid = false;
+    }
+
     if (!formData.message.trim()) {
-      errors.message = 'Message is required';
+      errors.message = 'Project requirements are required';
       isValid = false;
     }
 
@@ -52,7 +68,7 @@ export default function Contact() {
     e.preventDefault();
 
     if (!validateForm()) {
-      setError('Please fill all fields');
+      setError('Please fill all required fields');
       return;
     }
 
@@ -74,7 +90,7 @@ export default function Contact() {
       }
 
       setSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
       navigate('/thank-you');
     } catch (err) {
       console.error('Error submitting form:', err);
@@ -127,7 +143,7 @@ export default function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 className={`bg-slate-900 border rounded-xl p-4 text-white focus:outline-none transition-colors ${formErrors.name ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-amber-500'}`}
-                placeholder="Enter your name"
+                placeholder="Enter your full name"
               />
               {formErrors.name && <span className="text-red-500 text-sm">{formErrors.name}</span>}
             </div>
@@ -142,9 +158,50 @@ export default function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 className={`bg-slate-900 border rounded-xl p-4 text-white focus:outline-none transition-colors ${formErrors.email ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-amber-500'}`}
-                placeholder="Enter your email"
+                placeholder="Enter your email address"
               />
               {formErrors.email && <span className="text-red-500 text-sm">{formErrors.email}</span>}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-slate-300">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className={`bg-slate-900 border rounded-xl p-4 text-white focus:outline-none transition-colors ${formErrors.phone ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-amber-500'}`}
+                placeholder="Enter your phone number"
+              />
+              {formErrors.phone && <span className="text-red-500 text-sm">{formErrors.phone}</span>}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-slate-300">
+                Service Required <span className="text-amber-500">*</span>
+              </label>
+              <div className="relative">
+                <select
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                  className={`w-full bg-slate-900 border rounded-xl p-4 pr-10 focus:outline-none transition-colors appearance-none cursor-pointer ${formData.service ? 'text-white' : 'text-slate-400'} ${formErrors.service ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-amber-500'}`}
+                >
+                  <option value="" disabled className="bg-slate-900 text-slate-400">Select a service</option>
+                  <option value="Academic Writing" className="bg-slate-900 text-white">Academic Writing</option>
+                  <option value="Research Paper Writing" className="bg-slate-900 text-white">Research Paper Writing</option>
+                  <option value="Thesis & Dissertation" className="bg-slate-900 text-white">Thesis & Dissertation</option>
+                  <option value="Editing & Proofreading" className="bg-slate-900 text-white">Editing & Proofreading</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+              {formErrors.service && <span className="text-red-500 text-sm">{formErrors.service}</span>}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -156,7 +213,7 @@ export default function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 className={`bg-slate-900 border rounded-xl p-4 text-white focus:outline-none transition-colors min-h-[150px] resize-none ${formErrors.message ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-amber-500'}`}
-                placeholder="Tell us about your subject..."
+                placeholder="Tell us about your topic, requirements, word count, etc."
               ></textarea>
               {formErrors.message && <span className="text-red-500 text-sm">{formErrors.message}</span>}
             </div>
@@ -192,29 +249,36 @@ export default function Contact() {
             </div>
             <div>
               <h4 className="text-white font-semibold text-lg mb-1">Email Us</h4>
-              <p className="text-slate-400">irshadahemad.asr.ia@gmail.com</p>
-              <p className="text-slate-400">scholarline.1@gmail.com</p>
+              <a href="mailto:irshadahemad.asr.ia@gmail.com" className="block text-slate-400 hover:text-amber-500 transition-colors">irshadahemad.asr.ia@gmail.com</a>
+              <a href="mailto:scholarline.1@gmail.com" className="block text-slate-400 hover:text-amber-500 transition-colors">scholarline.1@gmail.com</a>
             </div>
           </div>
-          <div className="flex items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-2xl">
+          <a
+            href="tel:+917017613703"
+            className="flex items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-amber-500/30 transition-colors group cursor-pointer"
+          >
             <div className="w-14 h-14 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center shrink-0">
               <Phone size={24} />
             </div>
             <div>
               <h4 className="text-white font-semibold text-lg mb-1">Call Us</h4>
-              <p className="text-slate-400">+91 7017613703</p>
-
+              <p className="text-slate-400 group-hover:text-amber-500 transition-colors">+91 7017613703</p>
             </div>
-          </div>
-          <div className="flex items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-2xl">
+          </a>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=252%2F24%2C+Block-Rz%2C+West+Sagarpur%2C+New+Delhi+-+110046"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-amber-500/30 transition-colors group cursor-pointer"
+          >
             <div className="w-14 h-14 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center shrink-0">
               <MapPin size={24} />
             </div>
             <div>
               <h4 className="text-white font-semibold text-lg mb-1">Visit Us</h4>
-              <p className="text-slate-400">Mutaina, Tehsil Gunnour, Sambhal, UP – 202527</p>
+              <p className="text-slate-400 group-hover:text-amber-500 transition-colors">252/24, Block-Rz, West Sagarpur, New Delhi - 110046</p>
             </div>
-          </div>
+          </a>
         </motion.div>
       </div>
 

@@ -81,21 +81,26 @@ export default function Footer() {
             </form>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-4 text-slate-400 text-sm hover:text-amber-500 transition-colors cursor-pointer">
+              <div className="flex items-start gap-4 text-slate-400 text-sm">
                 <Mail size={18} className="mt-0.5 flex-shrink-0" />
                 <div className="flex flex-col gap-1">
-                  <span>irshadahemad.asr.ia@gmail.com</span>
-                  <span>scholarline.1@gmail.com</span>
+                  <a href="mailto:irshadahemad.asr.ia@gmail.com" className="hover:text-amber-500 transition-colors">irshadahemad.asr.ia@gmail.com</a>
+                  <a href="mailto:scholarline.1@gmail.com" className="hover:text-amber-500 transition-colors">scholarline.1@gmail.com</a>
                 </div>
               </div>
-              <div className="flex items-start gap-4 text-slate-400 text-sm hover:text-amber-500 transition-colors cursor-pointer">
+              <a href="tel:+917017613703" className="flex items-start gap-4 text-slate-400 text-sm hover:text-amber-500 transition-colors cursor-pointer">
                 <Phone size={18} className="mt-0.5 flex-shrink-0" />
                 <span>+91 7017613703</span>
-              </div>
-              <div className="flex items-start gap-4 text-slate-400 text-sm hover:text-amber-500 transition-colors cursor-pointer">
+              </a>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=252%2F24%2C+Block-Rz%2C+West+Sagarpur%2C+New+Delhi+-+110046"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-4 text-slate-400 text-sm hover:text-amber-500 transition-colors cursor-pointer"
+              >
                 <MapPin size={18} className="mt-0.5 flex-shrink-0" />
-                <span>Mutaina, Tehsil Gunnour, Sambhal, UP – 202527</span>
-              </div>
+                <span>252/24, Block-Rz, West Sagarpur, New Delhi - 110046</span>
+              </a>
             </div>
           </div>
 
